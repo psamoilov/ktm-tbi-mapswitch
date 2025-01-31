@@ -1,6 +1,0 @@
-@echo off
-echo Starting ESP32 firmware update (Revision V2)...
-esptool.exe write_flash 0x0 firmware.v2.bin
-echo.
-echo Done! Press any key to exit...
-pause

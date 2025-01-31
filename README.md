@@ -178,8 +178,9 @@
 
 #### Автоматическая прошивка:
 1. Подсоединить кабелем USB-C модуль к компьютеру
-1. Разархивировать файлы в папку
-2. Запустить `flash.v1.bat` или `flash.v2.bat` в зависимости от ревизии (для Windows)
+2. Разархивировать файлы в папку
+3. Запустить `flash.bat` для Windows или `flash.sh` для Mac
+4. Ответить на вопросы о ревизии блока и типе прошивки (полная или только программа)
 
 Если модуль не находится (ошибка присоединения), попробовать перевернуть разъем и перезагрузить его. 
 
@@ -187,7 +188,7 @@
 
 Для Windows:
 ```bash
-esptool.exe write_flash 0x0 firmware.vX.bin
+esptool.exe write_flash 0x0 firmware_full.vX.bin
 ```
 
 Где X - номер ревизии
@@ -195,7 +196,7 @@ esptool.exe write_flash 0x0 firmware.vX.bin
 Для Mac/Linux:
 ```bash
 
-esptool.py write_flash 0x0 firmware.vX.bin
+esptool.py write_flash 0x0 firmware_full.vX.bin
 ```
 
 > **Внимание**: Для восстановления настроек после прошивки войдите в диагностический режим и настройте параметры заново.
