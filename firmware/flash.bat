@@ -1,7 +1,6 @@
 @echo off
-chcp
+
 chcp 1251 > nul
-chcp
 
 :: Проверка наличия esptool.exe
 if not exist esptool.exe (
