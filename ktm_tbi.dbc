@@ -1,0 +1,219 @@
+VERSION ""
+
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: ECU Tester
+
+
+CM_ "KTM TBI ECU — UDS DIDs + CAN broadcast";
+CM_ "UDS transport: ISO-TP req 0x7E0, resp 0x7E8";
+CM_ "DID/IOID/RID messages use identifier as pseudo CAN ID (response payload layout)";
+CM_ "Source: src/Ecu/Ktm/Tbi/Tbi.hpp";
+
+
+// ── CAN broadcast (no UDS) ──────────────────────────────────────────────────
+
+BO_ 1754 KTM_TBI_StatusA: 8 ECU
+ SG_ TPS_Voltage : 6|9@0+ (0.01,0) [0|5.11] "V" Tester
+ SG_ TPS_Angle : 13|8@0+ (0.5,0) [0|127.5] "deg" Tester
+ SG_ RPM : 29|14@0+ (1,0) [0|16383] "rpm" Tester
+
+BO_ 1755 KTM_TBI_StatusB: 8 ECU
+ SG_ CoolantTemp : 7|8@0- (1,-20) [-20|235] "degC" Tester
+ SG_ ExhaustValvePercent : 14|7@0+ (1,0) [0|127] "%" Tester
+ SG_ IgnitionAngle : 28|11@0+ (0.4,0) [0|819] "deg" Tester
+
+BO_ 1216 KTM_TBI_MapBtn: 1 ECU
+ SG_ MapButton : 7|8@0+ (1,0) [0|255] "" Tester
+
+BO_ 1217 KTM_TBI_MapCmd: 8 ECU
+ SG_ MapCommand : 7|8@0+ (1,0) [0|255] "" Tester
+
+
+// ── UDS DIDs — sensors (periodic ReadDataByIdentifier) ─────────────────────
+
+BO_ 259 DID_0103_AtmTemperature: 1 ECU
+ SG_ AtmTemperature : 7|8@0- (1,-40) [-40|215] "degC" Tester
+
+BO_ 262 DID_0106_BatteryVoltage: 1 ECU
+ SG_ BatteryVoltage : 7|8@0+ (0.0625,0) [0|15.9375] "V" Tester
+
+BO_ 266 DID_010A_TpsAngle: 2 ECU
+ SG_ TpsAngle : 7|16@0+ (0.001953125,0) [0|127.998] "deg" Tester
+
+BO_ 276 DID_0114_TpsDetailed: 2 ECU
+ SG_ TpsDetailedPercent : 7|16@0+ (0.00015258789,0) [0|10] "%" Tester
+
+BO_ 288 DID_0120_OperatingMinutesTotal: 2 ECU
+ SG_ OperatingMinutesTotal : 7|16@0+ (1,0) [0|65535] "min" Tester
+
+BO_ 784 DID_0310_TransportLock: 1 ECU
+ SG_ LockStatus : 7|8@0+ (1,0) [0|255] "" Tester
+
+BO_ 1030 DID_0404_MapAtmo: 2 ECU
+ SG_ MapAtmo : 7|16@0+ (0.1,0) [0|6553.5] "mbar" Tester
+
+BO_ 1034 DID_0406_MapEngine: 2 ECU
+ SG_ MapEngine : 7|16@0+ (0.1,0) [0|6553.5] "mbar" Tester
+
+BO_ 1035 DID_040B_TpsAdopted: 2 ECU
+ SG_ TpsAdoptedPercent : 7|16@0+ (0.00015258789,0) [0|10] "%" Tester
+
+BO_ 1037 DID_040D_RolledUp: 1 ECU
+ SG_ RolledUp : 7|8@0+ (1,0) [0|255] "" Tester
+
+BO_ 1282 DID_0502_OperatingData: 96 ECU
+ SG_ OperatingMinutesIdle : 7|16@0+ (1,0) [0|65535] "min" Tester
+ SG_ OperatingHoursRaw : 23|768@0+ (1,0) [0|0] "" Tester
+
+BO_ 64810 DID_FD2A_KillSwitch: 1 ECU
+ SG_ KillSwitchRaw : 7|8@0+ (1,0) [0|1] "" Tester
+
+
+// ── UDS DIDs — identification (on-demand ReadDataByIdentifier) ─────────────
+
+BO_ 61713 DID_F111_CalibrationId: 18 ECU
+ SG_ CalibrationId : 7|144@0+ (1,0) [0|0] "" Tester
+
+BO_ 61824 DID_F180_BootSoftwareId: 18 ECU
+ SG_ BootSoftwareId : 7|144@0+ (1,0) [0|0] "" Tester
+
+BO_ 61825 DID_F181_ApplicationSoftwareId: 18 ECU
+ SG_ ApplicationSoftwareId : 7|144@0+ (1,0) [0|0] "" Tester
+
+BO_ 61826 DID_F182_ApplicationDataId: 18 ECU
+ SG_ ApplicationDataId : 7|144@0+ (1,0) [0|0] "" Tester
+
+BO_ 61836 DID_F18C_EcuSerialNumber: 18 ECU
+ SG_ EcuSerialNumber : 7|144@0+ (1,0) [0|0] "" Tester
+
+BO_ 61840 DID_F190_VIN: 17 ECU
+ SG_ VIN : 7|136@0+ (1,0) [0|0] "" Tester
+
+BO_ 61849 DID_F199_ProgrammingDate: 4 ECU
+ SG_ ProgrammingDate : 7|32@0+ (1,0) [0|0] "" Tester
+
+
+// ── UDS IO Control (InputOutputControlByIdentifier) — actuators ─────────────
+
+BO_ 65281 IOID_FF01_FuelPump: 1 ECU
+ SG_ ControlValue : 7|8@0+ (1,0) [0|255] "" Tester
+
+BO_ 65282 IOID_FF02_OilPump: 1 ECU
+ SG_ ControlValue : 7|8@0+ (1,0) [0|255] "" Tester
+
+BO_ 65291 IOID_FF0B_PowerValve: 1 ECU
+ SG_ ControlValue : 7|8@0+ (0.39215686,0) [0|100] "%" Tester
+
+BO_ 65312 IOID_FF20_Injector: 2 ECU
+ SG_ InjectorIndex : 7|8@0+ (1,0) [1|2] "" Tester
+ SG_ ControlValue : 15|8@0+ (1,0) [0|255] "" Tester
+
+BO_ 65313 IOID_FF21_Spark: 1 ECU
+ SG_ ControlValue : 7|8@0+ (1,0) [0|255] "" Tester
+
+BO_ 65314 IOID_FF22_Fan: 1 ECU
+ SG_ ControlValue : 7|8@0+ (1,0) [0|255] "" Tester
+
+
+// ── UDS Routine Control (RoutineControl) — adaptations ──────────────────────
+
+BO_ 34 RID_0022_ResetAdaptations: 4 ECU
+ SG_ OptionRecord : 7|32@0+ (1,0) [0|4294967295] "" Tester
+
+BO_ 8212 RID_2014_PowerValveCalibration: 0 ECU
+
+
+CM_ BO_ 1754 "CAN broadcast: RPM, TPS voltage/angle (STATUS_A_ID 0x6DA)";
+CM_ BO_ 1755 "CAN broadcast: coolant, exhaust valve, ignition angle (STATUS_B_ID 0x6DB)";
+CM_ BO_ 1216 "Map button input (BTN_MAP_ID 0x4C0)";
+CM_ BO_ 1217 "Map switch command (ECU_MAP_ID 0x4C1)";
+
+CM_ BO_ 259 "DID 0x0103 — ambient air temperature, offset -40 degC";
+CM_ BO_ 262 "DID 0x0106 — battery voltage, raw/16";
+CM_ BO_ 266 "DID 0x010A — TPS angle, raw/512 deg";
+CM_ BO_ 276 "DID 0x0114 — TPS detailed position, 10*raw/65535 %";
+CM_ BO_ 288 "DID 0x0120 — total operating minutes";
+CM_ BO_ 784 "DID 0x0310 — transport lock (0=unlocked, 1=locked, 2=transport)";
+CM_ BO_ 1030 "DID 0x0404 — atmospheric MAP, mbar";
+CM_ BO_ 1034 "DID 0x0406 — engine MAP, mbar";
+CM_ BO_ 1035 "DID 0x040B — TPS adopted position, 10*raw/65535 %";
+CM_ BO_ 1037 "DID 0x040D — rolled-up / side stand";
+CM_ BO_ 1282 "DID 0x0502 — idle minutes + operating hours blob (96 bytes)";
+CM_ BO_ 64810 "DID 0xFD2A — kill switch (inverted: 0=on, 1=off)";
+
+CM_ BO_ 61713 "DID 0xF111 — calibration ID (ASCII)";
+CM_ BO_ 61824 "DID 0xF180 — boot software identification (ASCII)";
+CM_ BO_ 61825 "DID 0xF181 — application software identification (ASCII)";
+CM_ BO_ 61826 "DID 0xF182 — application data identification (ASCII)";
+CM_ BO_ 61836 "DID 0xF18C — ECU serial number (ASCII)";
+CM_ BO_ 61840 "DID 0xF190 — VIN (17 bytes ASCII, writable with security)";
+CM_ BO_ 61849 "DID 0xF199 — programming date (4 bytes BCD-like)";
+
+CM_ BO_ 65281 "IOID 0xFF01 — fuel pump actuator test";
+CM_ BO_ 65282 "IOID 0xFF02 — oil pump actuator test";
+CM_ BO_ 65291 "IOID 0xFF0B — power valve (raw 0-255 maps to 0-100%)";
+CM_ BO_ 65312 "IOID 0xFF20 — injector 1/2 actuator test";
+CM_ BO_ 65313 "IOID 0xFF21 — spark actuator test";
+CM_ BO_ 65314 "IOID 0xFF22 — fan actuator test";
+
+CM_ BO_ 34 "RID 0x0022 — reset all adaptations, option 0x7800";
+CM_ BO_ 8212 "RID 0x2014 — power valve calibration routine";
+
+CM_ SG_ 1754 TPS_Voltage "Throttle position sensor voltage";
+CM_ SG_ 1754 TPS_Angle "Throttle angle";
+CM_ SG_ 1754 RPM "Engine speed";
+CM_ SG_ 1755 CoolantTemp "Coolant temperature";
+CM_ SG_ 1755 ExhaustValvePercent "Power valve opening";
+CM_ SG_ 1755 IgnitionAngle "Ignition advance angle";
+CM_ SG_ 64810 KillSwitchRaw "Raw value; application inverts: killSwitchOn = !raw";
+
+VAL_ 784 LockStatus 0 "Unlocked" 1 "Locked" 2 "Transport" ;
+VAL_ 1037 RolledUp 0 "Down" 1 "Up" ;
+VAL_ 64810 KillSwitchRaw 0 "Switch ON (engine allowed)" 1 "Switch OFF (kill active)" ;
+VAL_ 1217 MapCommand 4 "Green map" 8 "White map" ;
+
+BA_DEF_ BO_ "GenMsgCycleTime" INT 0 3600000;
+BA_DEF_ BO_ "GenMsgSendType" ENUM "Cyclic","NotUsed","NotUsed","NotUsed","NotUsed","NotUsed","NotUsed","IfActive","NoMsgSendType";
+BA_ "GenMsgSendType" BO_ 1754 0;
+BA_ "GenMsgSendType" BO_ 1755 0;
+BA_ "GenMsgCycleTime" BO_ 259 1000;
+BA_ "GenMsgCycleTime" BO_ 262 500;
+BA_ "GenMsgCycleTime" BO_ 1034 50;
+BA_ "GenMsgCycleTime" BO_ 1030 500;
+BA_ "GenMsgCycleTime" BO_ 1037 1000;
+BA_ "GenMsgCycleTime" BO_ 784 5000;
+BA_ "GenMsgCycleTime" BO_ 64810 1000;
+BA_ "GenMsgCycleTime" BO_ 288 10000;
+BA_ "GenMsgCycleTime" BO_ 1282 10000;
